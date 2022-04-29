@@ -8,9 +8,15 @@
     <string name="favs">Favs</string>
     <string name="news_image">News_Image</string>
     <string name="placeholder_title">Title</string>
-    <string name="source_placeholder">source</string>
+    <string name="source_placeholder">News.com</string>
     <string name="date_placeholder">Published at 4/23/2022</string>
     <string name="content_placeholder">content lorem ipsun dolor lacrime tolomeo at nute secteo o dolorae...</string>
     <string name="author_placeholder">Author: John Doe</string>
     <string name="technology">technology</string>
+    <string name="general">general</string>
+    <string name="sports">sports</string>
+    <string name="entertainment">entertainment</string>
+    <string name="science">science</string>
+    <string name="health">health</string>
+    <string name="business">business</string>
 </resources>

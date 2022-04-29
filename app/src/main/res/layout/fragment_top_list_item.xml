@@ -26,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Media -->
                 <ImageView
                     android:id="@+id/ivTopItem"
                     android:layout_width="match_parent"
@@ -41,7 +40,6 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Title, secondary and supporting text -->
                     <TextView
                         android:id="@+id/tvTopItemTitle"
                         android:layout_width="wrap_content"
@@ -62,7 +60,6 @@
 
                 </LinearLayout>
 
-                <!-- Buttons -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,15 +70,17 @@
                         android:id="@+id/tvTopItemAuthor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{article.source.name}" />
+                        android:layout_marginEnd="8dp"
+                        android:text="@{article.source.name}"
+                        tools:text="@string/source_placeholder"/>
 
                     <TextView
                         android:id="@+id/tvTopItemTitleDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="@{article.publishedAt}" />
+                        android:layout_marginStart="8dp"
+                        android:text="@{article.publishedAt}"
+                        tools:text="8 days ago"/>
                 </LinearLayout>
 
             </LinearLayout>

@@ -16,18 +16,20 @@ class NewsListViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
 
     fun bind(article: Article){
-        binding.article = article
+        binding.apply {
+            this.article = article
+            ivNewsItem.load(article.urlToImage) {
+                error(R.drawable.ic_error_placeholder)
+                crossfade(true)
+                placeholder(R.drawable.ic_error_placeholder)
+            }
+        }
         /*val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'", Locale.getDefault())
         val time = sdf.parse(article.publishedAt).time
         val now = System.currentTimeMillis()
         val ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS)
 
         binding.tvNewsItemDate.text = ago.toString()*/
-
-        binding.ivNewsItem.load(article.urlToImage) {
-            crossfade(true)
-            placeholder(R.drawable.ic_news)
-        }
 
         binding.root.setOnClickListener {
 

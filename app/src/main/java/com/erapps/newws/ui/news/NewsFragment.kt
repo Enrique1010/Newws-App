@@ -9,9 +9,9 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erapps.newws.R
-import com.erapps.newws.R.*
 import com.erapps.newws.databinding.FragmentNewsBinding
 import com.erapps.newws.utils.launchAndRepeatWithViewLifecycle
+import com.erapps.newws.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -32,6 +32,7 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         setupRV()
         return binding.root
     }
@@ -55,6 +56,10 @@ class NewsFragment : Fragment() {
         val searchView: SearchView = searchItem.actionView as SearchView
 
         searchView.queryHint = "Search News Here"
+        searchView.onQueryTextChanged {
+            if (it.isEmpty() || it.isBlank()) viewModel.searchText.value = "all"
+            viewModel.searchText.value = it
+        }
     }
 
     private fun CoroutineScope.observeViewModel(){

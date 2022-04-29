@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,18 +19,22 @@ class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ): ViewModel() {
 
+    private val _articleList = MutableStateFlow<NewsEvent>(NewsEvent.Success(PagingData.empty()))
+    val articleList = _articleList.asStateFlow()
+
+    val searchText = MutableStateFlow("all")
+    private val searchFlow = searchText.flatMapLatest {
+        newsRepository.getByUserQuery(it).cachedIn(viewModelScope)
+    }
+
     init {
         //networkManagment
         //update Room Database
     }
 
-    private val _articleList = MutableStateFlow<NewsEvent>(NewsEvent.Success(PagingData.empty()))
-    val articleList = _articleList.asStateFlow()
-
     fun getArticles() = viewModelScope.launch {
-        newsRepository.getAllNews().cachedIn(viewModelScope)
-            .collectLatest { list ->
-            _articleList.value = NewsEvent.Success(list)
+        searchFlow.collectLatest {
+            _articleList.value = NewsEvent.Success(it)
         }
     }
 }
