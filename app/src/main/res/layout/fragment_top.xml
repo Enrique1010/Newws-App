@@ -12,28 +12,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scrollbars="none"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toTopOf="@+id/recyclerTop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup2"
+                android:id="@+id/chipGroupTop"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:singleLine="true">
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                app:singleLine="true"
+                app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/general"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    app:checkedIcon="@drawable/ic_checked"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:checked="true"
                     android:text="@string/general" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/sports"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/ic_checked"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_weight="1"
                     android:text="@string/sports" />
 
@@ -41,30 +51,40 @@
                     android:id="@+id/entertainment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/ic_checked"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:text="@string/entertainment" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/tech"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/ic_checked"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:text="@string/technology" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/science"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/ic_checked"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:text="@string/science" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/health"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/ic_checked"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:text="@string/health" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/business"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:checkedIcon="@drawable/ic_checked"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:text="@string/business" />
 
             </com.google.android.material.chip.ChipGroup>

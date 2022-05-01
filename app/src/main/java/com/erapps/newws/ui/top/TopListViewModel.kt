@@ -7,9 +7,7 @@ import androidx.paging.cachedIn
 import com.erapps.newws.data.models.Article
 import com.erapps.newws.data.source.topheadlines.TopHeadLinesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,12 +18,17 @@ class TopListViewModel @Inject constructor(
     private val _topHeadLines = MutableStateFlow<TopListEvent>(TopListEvent.Success(PagingData.empty()))
     val topHeadLines = _topHeadLines.asStateFlow()
 
+    val chipText = MutableStateFlow("")
+    private val searchFlow = chipText.flatMapLatest {
+        topHeadLinesRepository.getTopNewsByCategory(it).cachedIn(viewModelScope)
+    }
+
     init {
         //TODO("networking")
     }
 
     fun getTopNews() = viewModelScope.launch {
-        topHeadLinesRepository.getTopNewsByCategory("general").cachedIn(viewModelScope).collectLatest {
+        searchFlow.collect {
             _topHeadLines.value = TopListEvent.Success(it)
         }
     }

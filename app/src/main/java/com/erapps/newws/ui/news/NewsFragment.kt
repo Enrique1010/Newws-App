@@ -42,7 +42,7 @@ class NewsFragment : Fragment() {
         adapter = NewsListAdapter()
         recyclerView.adapter = adapter
 
-        viewModel.getArticles()
+       // viewModel.getArticles()
         launchAndRepeatWithViewLifecycle {
             observeViewModel()
         }

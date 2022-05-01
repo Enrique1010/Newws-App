@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.erapps.newws.data.models.Article
 import com.erapps.newws.data.source.news.NewsDataSource
 import com.erapps.newws.room.ArticlesDao
+import com.erapps.newws.room.entities.CachedArticles
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -82,5 +83,11 @@ class NewsLocalDataSource(
                 articlesDao.getAll()
             }
         ).flow.flowOn(ioDispatcher)
+    }
+
+    suspend fun insertListOnDataBase(list: List<Article>){
+        articlesDao.insertUpdatedList(CachedArticles(
+            articles = list
+        ))
     }
 }

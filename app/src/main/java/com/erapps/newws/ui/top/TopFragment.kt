@@ -1,6 +1,5 @@
 package com.erapps.newws.ui.top
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -8,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.erapps.newws.R
 import com.erapps.newws.databinding.FragmentTopBinding
 import com.erapps.newws.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,19 +31,53 @@ class TopFragment : Fragment() {
 
         _binding = FragmentTopBinding.inflate(inflater, container, false)
         setUpView()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setUpChipGroup()
         adapter = TopListAdapter()
         recyclerView.adapter = adapter
 
         viewModel.getTopNews()
         launchAndRepeatWithViewLifecycle {
             observeViewModel()
+        }
+    }
+
+    private fun setUpChipGroup() {
+        binding.chipGroupTop.setOnCheckedChangeListener{ _, checkedId ->
+            when(checkedId){
+                binding.general.id -> {
+                    setCategoryValue(binding.general.text.toString())
+                }
+                binding.sports.id -> {
+                    setCategoryValue(binding.sports.text.toString())
+                }
+                binding.entertainment.id -> {
+                    setCategoryValue(binding.entertainment.text.toString())
+                }
+                binding.tech.id -> {
+                    setCategoryValue(binding.tech.text.toString())
+                }
+                binding.science.id -> {
+                    setCategoryValue(binding.science.text.toString())
+                }
+                binding.health.id -> {
+                    setCategoryValue(binding.health.text.toString())
+                }
+                binding.business.id -> {
+                    setCategoryValue(binding.business.text.toString())
+                }
+            }
+        }
+    }
+
+    private fun setCategoryValue(query: String){
+        recyclerView.scrollToPosition(0)
+        viewModel.chipText.apply {
+            value = query
         }
     }
 

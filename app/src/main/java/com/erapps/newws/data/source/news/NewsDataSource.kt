@@ -18,4 +18,8 @@ interface NewsDataSource {
     suspend fun getByUserQuery(
         searchBy: String
     ): Flow<PagingData<Article>>
+
+    suspend fun insertUpdatedList(list: List<Article>)
+
+    suspend fun clearDatabase()
 }

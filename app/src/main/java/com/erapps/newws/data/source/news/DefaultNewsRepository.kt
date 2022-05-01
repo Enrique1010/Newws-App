@@ -1,9 +1,12 @@
 package com.erapps.newws.data.source.news
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.flatMap
 import com.erapps.newws.data.models.Article
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 
 class DefaultNewsRepository(
