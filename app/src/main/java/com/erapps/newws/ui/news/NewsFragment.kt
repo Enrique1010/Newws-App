@@ -42,7 +42,7 @@ class NewsFragment : Fragment() {
         adapter = NewsListAdapter()
         recyclerView.adapter = adapter
 
-       // viewModel.getArticles()
+        viewModel.getArticles()
         launchAndRepeatWithViewLifecycle {
             observeViewModel()
         }
@@ -66,9 +66,7 @@ class NewsFragment : Fragment() {
         launch {
             viewModel.articleList.collectLatest {
                 when(it){
-                    is NewsEvent.Empty -> {
-                        adapter.submitData(PagingData.empty())
-                    }
+                    is NewsEvent.Empty -> adapter.submitData(PagingData.empty())
                     is NewsEvent.Success -> adapter.submitData(it.articles)
                 }
             }

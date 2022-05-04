@@ -12,9 +12,9 @@ private const val API_STARTING_PAGE_INDEX = 1
 
 class NewsPagingSource(
     private val newsApiService: NewsApiService,
-    private val sortBy: String? = "relevancy",
-    private val language: String? = null,
-    private val searchBy: String? = "all"
+    private val sortBy: String? = "popularity",
+    private val language: String? = "en",
+    private val searchBy: String? = "the"
 ): PagingSource<Int, Article>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
@@ -28,7 +28,7 @@ class NewsPagingSource(
                 searchBy = searchBy
             )
 
-            val article = response.let {
+            val articles = response.let {
                 when(it){
                     is NetworkResponse.ApiError -> emptyList()
                     is NetworkResponse.NetworkError -> emptyList()
@@ -37,14 +37,14 @@ class NewsPagingSource(
                 }
             }
 
-            val nextKey = if (article.isEmpty()) {
+            val nextKey = if (articles.isEmpty()) {
                 null
             } else {
                 position + (params.loadSize / 30)
             }
 
             LoadResult.Page(
-                data = article,
+                data = articles,
                 prevKey = if (position == API_STARTING_PAGE_INDEX) null else position - 1,
                 nextKey = nextKey
             )

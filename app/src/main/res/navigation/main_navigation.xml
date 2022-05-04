@@ -9,43 +9,15 @@
         android:id="@+id/newsFragment"
         android:name="com.erapps.newws.ui.news.NewsFragment"
         android:label="fragment_news"
-        tools:layout="@layout/fragment_news" >
-        <action
-            android:id="@+id/action_newsFragment_to_articlesDetails"
-            app:destination="@id/articlesDetails" />
-        <action
-            android:id="@+id/action_newsFragment_to_addToFavsDialog"
-            app:destination="@id/addToFavsDialog" />
-    </fragment>
+        tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/topFragment"
         android:name="com.erapps.newws.ui.top.TopFragment"
         android:label="fragment_top"
-        tools:layout="@layout/fragment_top" >
-        <action
-            android:id="@+id/action_topFragment_to_articlesDetails"
-            app:destination="@id/articlesDetails" />
-        <action
-            android:id="@+id/action_topFragment_to_addToFavsDialog"
-            app:destination="@id/addToFavsDialog" />
-    </fragment>
-    <fragment
-        android:id="@+id/articlesDetails"
-        android:name="com.erapps.newws.ui.ArticlesDetails"
-        android:label="fragment_articles_details"
-        tools:layout="@layout/fragment_articles_details" />
-    <fragment
-        android:id="@+id/addToFavsDialog"
-        android:name="com.erapps.newws.ui.AddToFavsDialog"
-        android:label="dialog_add_to_favs"
-        tools:layout="@layout/dialog_add_to_favs" />
+        tools:layout="@layout/fragment_top" />
     <fragment
         android:id="@+id/favsFragment"
         android:name="com.erapps.newws.ui.favs.FavsFragment"
         android:label="fragment_favs"
-        tools:layout="@layout/fragment_favs" >
-        <action
-            android:id="@+id/action_favsFragment_to_articlesDetails"
-            app:destination="@id/articlesDetails" />
-    </fragment>
+        tools:layout="@layout/fragment_favs" />
 </navigation>

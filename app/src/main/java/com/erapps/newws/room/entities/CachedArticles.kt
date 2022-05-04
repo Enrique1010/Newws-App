@@ -1,5 +1,6 @@
 package com.erapps.newws.room.entities
 
+import androidx.paging.PagingData
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey

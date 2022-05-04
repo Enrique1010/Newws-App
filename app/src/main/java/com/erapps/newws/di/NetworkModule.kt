@@ -3,6 +3,9 @@ package com.erapps.newws.di
 import com.erapps.newws.BuildConfig
 import com.erapps.newws.api.NetworkResponseAdapterFactory
 import com.erapps.newws.api.services.NewsApiService
+import com.erapps.newws.utils.ExcludeDeserializationStrategy
+import com.erapps.newws.utils.ExcludeSerializationStrategy
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,7 +54,11 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideGsonConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
+        val gson = GsonBuilder()
+            .addSerializationExclusionStrategy(ExcludeSerializationStrategy())
+            .addDeserializationExclusionStrategy(ExcludeDeserializationStrategy())
+            .create()
+        return GsonConverterFactory.create(gson)
     }
 
     @Singleton

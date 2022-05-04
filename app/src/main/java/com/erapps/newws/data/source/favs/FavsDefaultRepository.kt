@@ -6,6 +6,7 @@ import com.erapps.newws.data.source.local.FavsLocalDS
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class FavsDefaultRepository(
     private val favsLocalDS: FavsLocalDS,
@@ -15,7 +16,7 @@ class FavsDefaultRepository(
         return favsLocalDS.getFavoritesArticles().flowOn(defaultDispatcher)
     }
 
-    override suspend fun insertFavoriteArticle(article: Article) {
-        favsLocalDS.insertFavoriteArticle(article)
+    override suspend fun insertFavoriteArticle(article: Article) = withContext(defaultDispatcher) {
+            favsLocalDS.insertFavoriteArticle(article)
     }
 }

@@ -5,16 +5,30 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.erapps.newws.api.services.NewsApiService
 import com.erapps.newws.data.models.Article
-import com.erapps.newws.data.source.news.NewsDataSource
 import com.erapps.newws.data.source.news.NewsPagingSource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
+
+interface INewsDataSource {
+    suspend fun getAllNews(): Flow<PagingData<Article>>
+
+    suspend fun getFilteredNews(
+        sortBy: String
+    ): Flow<PagingData<Article>>
+
+    suspend fun getNewsByLanguage(
+        language: String
+    ): Flow<PagingData<Article>>
+
+    suspend fun getByUserQuery(
+        searchBy: String
+    ): Flow<PagingData<Article>>
+}
 
 class NewsRemoteDataSource(
     private val newsApiService: NewsApiService,
     private val ioDispatcher: CoroutineDispatcher
-): NewsDataSource {
+): INewsDataSource {
 
     override suspend fun getAllNews(): Flow<PagingData<Article>> {
         val pageSize = 30

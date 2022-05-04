@@ -1,4 +1,4 @@
-package com.erapps.newws.data
+package com.erapps.newws.room
 
 import androidx.room.TypeConverter
 import com.erapps.newws.data.models.Article

@@ -6,6 +6,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favs">Favs</string>
+    <string name="content_button">Favs_Button</string>
     <string name="news_image">News_Image</string>
     <string name="placeholder_title">Title</string>
     <string name="source_placeholder">News.com</string>

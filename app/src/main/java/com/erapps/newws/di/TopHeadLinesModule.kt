@@ -1,11 +1,10 @@
 package com.erapps.newws.di
 
 import com.erapps.newws.api.services.NewsApiService
-import com.erapps.newws.data.source.news.NewsDataSource
-import com.erapps.newws.data.source.remote.NewsRemoteDataSource
+import com.erapps.newws.data.source.remote.ITopHeadLineDataSource
 import com.erapps.newws.data.source.remote.TopHeadLinesRemoteDS
 import com.erapps.newws.data.source.topheadlines.DefaultTopHeadLinesRepository
-import com.erapps.newws.data.source.topheadlines.TopHeadLinesRepository
+import com.erapps.newws.data.source.topheadlines.ITopHeadLinesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,16 +26,16 @@ object TopHeadLinesModule {
     fun providesTopHeadLinesRemoteDS(
         newsApiService: NewsApiService,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): TopHeadLinesRemoteDS {
+    ): ITopHeadLineDataSource {
         return TopHeadLinesRemoteDS(newsApiService, ioDispatcher)
     }
 
     @Singleton
     @Provides
     fun providesTopHeadLinesRepository(
-        @RemoteTopHeadLinesDataSource remoteTopHeadLinesDataSource: TopHeadLinesRemoteDS,
+        @RemoteTopHeadLinesDataSource remoteTopHeadLinesDataSource: ITopHeadLineDataSource,
         @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
-    ): TopHeadLinesRepository {
+    ): ITopHeadLinesRepository {
         return DefaultTopHeadLinesRepository(
             remoteTopHeadLinesDataSource,
             defaultDispatcher

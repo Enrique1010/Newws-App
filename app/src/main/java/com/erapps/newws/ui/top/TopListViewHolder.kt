@@ -1,7 +1,9 @@
 package com.erapps.newws.ui.top
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.erapps.newws.R
@@ -19,9 +21,14 @@ class TopListViewHolder(
             placeholder(R.drawable.ic_news)
         }
 
-        binding.root.setOnClickListener {
-
+        binding.cardTop.setOnClickListener {
+            openInCustomTab(article.url)
         }
+    }
+
+    private fun openInCustomTab(url: String){
+        val builder = CustomTabsIntent.Builder().build()
+        builder.launchUrl(binding.root.context, Uri.parse(url))
     }
 
     companion object {

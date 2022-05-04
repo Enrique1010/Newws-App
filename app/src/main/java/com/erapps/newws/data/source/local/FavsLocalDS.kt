@@ -6,10 +6,10 @@ import androidx.paging.PagingData
 import com.erapps.newws.data.models.Article
 import com.erapps.newws.data.source.favs.FavsDataSource
 import com.erapps.newws.room.ArticlesDao
-import com.erapps.newws.room.entities.Favs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class FavsLocalDS(
     private val articlesDao: ArticlesDao,
@@ -32,8 +32,8 @@ class FavsLocalDS(
         ).flow.flowOn(ioDispatcher)
     }
 
-    override suspend fun insertFavoriteArticle(article: Article) {
-        articlesDao.insertFavs(Favs(article = article))
+    override suspend fun insertFavoriteArticle(article: Article) = withContext(ioDispatcher) {
+        articlesDao.insertFavs(article = article)
     }
 
 }

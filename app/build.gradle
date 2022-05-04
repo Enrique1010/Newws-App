@@ -25,13 +25,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'News_Api_Base_URL', '"https://newsapi.org/v2/"'
-            buildConfigField 'String', 'API_KEY', '"4e70b7417d5a49f39fb94bc76f0858b9"'
+            buildConfigField 'String', 'API_KEY', '"8bc4e0c655cb433096f055b79883da60"'//'"4e70b7417d5a49f39fb94bc76f0858b9"'
         }
         debug{
             versionNameSuffix '-debug'
             applicationIdSuffix '.debug'
             buildConfigField 'String', 'News_Api_Base_URL', '"https://newsapi.org/v2/"'
-            buildConfigField 'String', 'API_KEY', '"4e70b7417d5a49f39fb94bc76f0858b9"'
+            buildConfigField 'String', 'API_KEY', '"8bc4e0c655cb433096f055b79883da60"'
         }
     }
     buildFeatures {
@@ -68,6 +68,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     //paging
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+    //customTabs
+    implementation "androidx.browser:browser:$customTabs"
     //room
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-paging:$roomVersion"
