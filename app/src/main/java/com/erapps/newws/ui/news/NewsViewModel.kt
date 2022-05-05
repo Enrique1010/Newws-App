@@ -6,24 +6,27 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.erapps.newws.data.models.Article
+import com.erapps.newws.data.source.favs.FavsRepository
 import com.erapps.newws.data.source.news.ILocalNewsRepository
 import com.erapps.newws.data.source.news.INewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val newsRepository: INewsRepository,
-    private val localRepository: ILocalNewsRepository
+    private val localRepository: ILocalNewsRepository,
+    private val favsRepository: FavsRepository
 ): ViewModel() {
 
     private val _articleList = MutableStateFlow<NewsEvent>(NewsEvent.Success(PagingData.empty()))
     val articleList = _articleList.asStateFlow()
+
+    private val _insertEvent = Channel<NewsEvent>(Channel.CONFLATED)
+    val insertEvent = _insertEvent.receiveAsFlow()
 
     val searchText = MutableStateFlow("all")
 
@@ -50,9 +53,19 @@ class NewsViewModel @Inject constructor(
             _articleList.value = NewsEvent.Success(it)
         }
     }
+
+    fun onArticleSwipe(article: Article) = viewModelScope.launch {
+        favsRepository.insertFavoriteArticle(article)
+        _insertEvent.send(NewsEvent.ShowInsertMessage(article))
+    }
+
+    fun onUndoAddedToFavs(article: Article) = viewModelScope.launch {
+        favsRepository.deleteFavArticle(article)
+    }
 }
 
 sealed class NewsEvent{
     data class Success(val articles: PagingData<Article>): NewsEvent()
+    data class ShowInsertMessage(val article: Article): NewsEvent()
     data class Empty(val errorMessage: String): NewsEvent()
 }

@@ -27,6 +27,14 @@ class FavsViewModel @Inject constructor(
             _uiState.value = FavsEvents.Success(it)
         }
     }
+
+    fun onArticleSwipe(article: Article) = viewModelScope.launch {
+        favsRepository.deleteFavArticle(article)
+    }
+
+    fun onUndoArticleSwipe(article: Article) = viewModelScope.launch {
+        favsRepository.insertFavoriteArticle(article)
+    }
 }
 
 sealed class FavsEvents {

@@ -19,4 +19,8 @@ class FavsDefaultRepository(
     override suspend fun insertFavoriteArticle(article: Article) = withContext(defaultDispatcher) {
             favsLocalDS.insertFavoriteArticle(article)
     }
+
+    override suspend fun deleteFavArticle(article: Article) = withContext(defaultDispatcher) {
+        favsLocalDS.deleteFavArticle(article)
+    }
 }

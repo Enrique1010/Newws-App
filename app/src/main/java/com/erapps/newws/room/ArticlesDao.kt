@@ -10,7 +10,7 @@ interface ArticlesDao {
     @Query("select articles from CachedArticles where id = 1")
     fun getAll(): PagingSource<Int, Article>
 
-    @Query("select * from Article")
+    @Query("select * from Article order by id desc")
     fun getFavs(): PagingSource<Int, Article>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -21,4 +21,7 @@ interface ArticlesDao {
 
     @Query("delete from CachedArticles")
     suspend fun deleteArticles()
+
+    @Delete
+    suspend fun deleteFavArticle(article: Article)
 }

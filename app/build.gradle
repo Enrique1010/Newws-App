@@ -70,6 +70,8 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
     //customTabs
     implementation "androidx.browser:browser:$customTabs"
+    //palette
+    implementation "androidx.palette:palette:$palette"
     //room
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-paging:$roomVersion"
