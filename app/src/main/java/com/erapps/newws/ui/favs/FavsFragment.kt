@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.erapps.newws.data.models.Article
 import com.erapps.newws.databinding.FragmentFavsBinding
 import com.erapps.newws.utils.launchAndRepeatWithViewLifecycle
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -24,6 +26,7 @@ class FavsFragment : Fragment() {
 
     private lateinit var adapter: FavsListAdapter
     private lateinit var recyclerView: RecyclerView
+    private var position: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +57,9 @@ class FavsFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val article = adapter.snapshot().items[viewHolder.bindingAdapterPosition]
+                position = viewHolder.bindingAdapterPosition
+                val article = adapter.snapshot().items[position]
+                adapter.notifyItemRemoved(position)
                 viewModel.onArticleSwipe(article)
             }
 
@@ -63,6 +68,7 @@ class FavsFragment : Fragment() {
         viewModel.getFavsArticles()
         launchAndRepeatWithViewLifecycle {
             observeUiState()
+            observeSwipeText()
         }
 
     }
@@ -83,9 +89,31 @@ class FavsFragment : Fragment() {
                         viewModel.progressStatus.value = false
                         adapter.submitData(it.pagingData)
                     }
+                    else -> {}
                 }
             }
         }
+    }
+
+    private fun CoroutineScope.observeSwipeText(){
+        launch {
+            viewModel.showText.collect {
+                when(it){
+                    is FavsEvents.ShowDeleteMessage -> {
+                        showSnackBar(it.article)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun showSnackBar(article: Article){
+        Snackbar.make(requireView(), "Article removed from favorites!!", Snackbar.LENGTH_LONG)
+            .setAction("Undo") {
+                viewModel.onUndoArticleSwipe(article)
+                adapter.notifyItemInserted(position)
+            }.show()
     }
 
     override fun onDestroy() {

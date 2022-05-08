@@ -18,15 +18,16 @@ class NewsListViewHolder(
     fun bind(article: Article){
         binding.apply {
             this.article = article
-            ivNewsItem.load(article.urlToImage) {
-                //error(R.drawable.ic_error_placeholder)
-                crossfade(true)
-                placeholder(R.drawable.ic_error_placeholder)
-            }
         }
 
         binding.cardNews.setOnClickListener {
             openInCustomTab(article.url)
+        }
+
+        binding.cardNews.setOnLongClickListener {
+            val direction = NewsFragmentDirections.actionNewsFragmentToAddToFavsBottomSheet(article)
+            binding.root.findNavController().navigate(direction)
+            return@setOnLongClickListener true
         }
     }
 

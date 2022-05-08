@@ -28,9 +28,8 @@ class TopFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentTopBinding.inflate(inflater, container, false)
-        setUpView()
+        setUpRV()
         return binding.root
     }
 
@@ -75,10 +74,10 @@ class TopFragment : Fragment() {
     }
 
     private fun setCategoryValue(query: String){
-        recyclerView.scrollToPosition(0)
         viewModel.chipText.apply {
             value = query
         }
+        recyclerView.layoutManager?.scrollToPosition(0)
     }
 
     private fun CoroutineScope.observeViewModel() {
@@ -92,7 +91,7 @@ class TopFragment : Fragment() {
         }
     }
 
-    private fun setUpView(){
+    private fun setUpRV(){
         recyclerView = binding.recyclerTop
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext() ,LinearLayoutManager.VERTICAL, false)

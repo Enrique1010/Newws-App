@@ -76,6 +76,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-paging:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 

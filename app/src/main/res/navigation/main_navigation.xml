@@ -9,7 +9,11 @@
         android:id="@+id/newsFragment"
         android:name="com.erapps.newws.ui.news.NewsFragment"
         android:label="fragment_news"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_news" >
+        <action
+            android:id="@+id/action_newsFragment_to_addToFavsBottomSheet"
+            app:destination="@id/addToFavsBottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/topFragment"
         android:name="com.erapps.newws.ui.top.TopFragment"
@@ -20,4 +24,13 @@
         android:name="com.erapps.newws.ui.favs.FavsFragment"
         android:label="fragment_favs"
         tools:layout="@layout/fragment_favs" />
+    <dialog
+        android:id="@+id/addToFavsBottomSheet"
+        android:name="com.erapps.newws.ui.news.AddToFavsBottomSheet"
+        android:label="fragment_add_to_favs_bottom_sheet"
+        tools:layout="@layout/fragment_add_to_favs_bottom_sheet" >
+        <argument
+            android:name="article"
+            app:argType="com.erapps.newws.data.models.Article" />
+    </dialog>
 </navigation>

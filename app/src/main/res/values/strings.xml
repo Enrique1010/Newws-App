@@ -3,7 +3,6 @@
     <string name="news">News</string>
     <string name="top">Top</string>
     <string name="search">Search</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favs">Favs</string>
     <string name="content_button">Favs_Button</string>
@@ -12,6 +11,7 @@
     <string name="source_placeholder">News.com</string>
     <string name="date_placeholder">Published at 4/23/2022</string>
     <string name="content_placeholder">content lorem ipsun dolor lacrime tolomeo at nute secteo o dolorae...</string>
+    <string name="search_hint">Search News Here</string>
     <string name="author_placeholder">Author: John Doe</string>
     <string name="technology">technology</string>
     <string name="general">general</string>
@@ -20,4 +20,8 @@
     <string name="science">science</string>
     <string name="health">health</string>
     <string name="business">business</string>
+    <string name="yes">yes</string>
+    <string name="add_this_article_to_favorites">add this Article to Favorites</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="no">No</string>
 </resources>

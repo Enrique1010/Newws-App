@@ -14,12 +14,10 @@ class TopListViewHolder(
     private val binding: FragmentTopListItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
+    val _binding: FragmentTopListItemBinding = binding
+
     fun bind(article: Article){
         binding.article = article
-        binding.ivTopItem.load(article.urlToImage) {
-            crossfade(true)
-            placeholder(R.drawable.ic_news)
-        }
 
         binding.cardTop.setOnClickListener {
             openInCustomTab(article.url)
