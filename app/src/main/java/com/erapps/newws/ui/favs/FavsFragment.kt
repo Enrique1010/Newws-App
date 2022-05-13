@@ -18,7 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FavsFragment : Fragment() {
+class FavsFragment: Fragment() {
     private var _binding: FragmentFavsBinding? = null
     private val binding get() = _binding!!
 
@@ -34,7 +34,7 @@ class FavsFragment : Fragment() {
     ): View {
         _binding = FragmentFavsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
+            viewModel = this@FavsFragment.viewModel
         }
         setUpRecycler()
         return binding.root
@@ -45,7 +45,16 @@ class FavsFragment : Fragment() {
 
         adapter = FavsListAdapter()
         binding.recyclerFavs.adapter = adapter
+        setUpItemHelper()
 
+        viewModel.getFavsArticles()
+        launchAndRepeatWithViewLifecycle {
+            observeUiState()
+            observeSwipeText()
+        }
+    }
+
+    private fun setUpItemHelper(){
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(
@@ -59,18 +68,11 @@ class FavsFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 position = viewHolder.bindingAdapterPosition
                 val article = adapter.snapshot().items[position]
-                adapter.notifyItemRemoved(position)
+                adapter.notifyItemChanged(position)
                 viewModel.onArticleSwipe(article)
             }
 
         }).attachToRecyclerView(recyclerView)
-
-        viewModel.getFavsArticles()
-        launchAndRepeatWithViewLifecycle {
-            observeUiState()
-            observeSwipeText()
-        }
-
     }
 
     private fun setUpRecycler(){
@@ -84,9 +86,9 @@ class FavsFragment : Fragment() {
         launch {
             viewModel.uiState.collect {
                 when(it){
-                    FavsEvents.Loading -> viewModel.progressStatus.value = true
+                    FavsEvents.Loading -> showProgress(true)
                     is FavsEvents.Success -> {
-                        viewModel.progressStatus.value = false
+                        showProgress(false)
                         adapter.submitData(it.pagingData)
                     }
                     else -> {}
@@ -100,6 +102,7 @@ class FavsFragment : Fragment() {
             viewModel.showText.collect {
                 when(it){
                     is FavsEvents.ShowDeleteMessage -> {
+                        scrollToTop()
                         showSnackBar(it.article)
                     }
                     else -> {}
@@ -108,12 +111,21 @@ class FavsFragment : Fragment() {
         }
     }
 
+    private fun showProgress(tf: Boolean){
+        viewModel.progressStatus.value = tf
+    }
+
     private fun showSnackBar(article: Article){
         Snackbar.make(requireView(), "Article removed from favorites!!", Snackbar.LENGTH_LONG)
             .setAction("Undo") {
                 viewModel.onUndoArticleSwipe(article)
-                adapter.notifyItemInserted(position)
+                adapter.notifyItemChanged(position)
+                scrollToTop()
             }.show()
+    }
+
+    private fun scrollToTop(){
+        recyclerView.layoutManager?.scrollToPosition(position)
     }
 
     override fun onDestroy() {

@@ -8,7 +8,7 @@ import com.erapps.newws.room.entities.CachedArticles
 
 @Database(
     entities = [CachedArticles::class, Article::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

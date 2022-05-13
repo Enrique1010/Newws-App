@@ -18,7 +18,11 @@
         android:id="@+id/topFragment"
         android:name="com.erapps.newws.ui.top.TopFragment"
         android:label="fragment_top"
-        tools:layout="@layout/fragment_top" />
+        tools:layout="@layout/fragment_top" >
+        <action
+            android:id="@+id/action_topFragment_to_addToFavsBottomSheet"
+            app:destination="@id/addToFavsBottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/favsFragment"
         android:name="com.erapps.newws.ui.favs.FavsFragment"

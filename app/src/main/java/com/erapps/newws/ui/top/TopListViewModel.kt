@@ -15,8 +15,10 @@ import javax.inject.Inject
 class TopListViewModel @Inject constructor(
     private val topHeadLinesRepository: ITopHeadLinesRepository
 ): ViewModel(){
-    private val _topHeadLines = MutableStateFlow<TopListEvent>(TopListEvent.Success(PagingData.empty()))
+    private val _topHeadLines = MutableStateFlow<TopListEvent>(TopListEvent.Loading)
     val topHeadLines = _topHeadLines.asStateFlow()
+
+    val progressStatus = MutableStateFlow(true)
 
     val chipText = MutableStateFlow("general")
     private val searchFlow = chipText.flatMapLatest {
@@ -28,7 +30,8 @@ class TopListViewModel @Inject constructor(
     }
 
     fun getTopNews() = viewModelScope.launch {
-        searchFlow.collect {
+        searchFlow.collectLatest {
+            progressStatus.value = false
             _topHeadLines.value = TopListEvent.Success(it)
         }
     }
@@ -37,4 +40,5 @@ class TopListViewModel @Inject constructor(
 sealed class TopListEvent{
     data class Success(val topArticles: PagingData<Article>): TopListEvent()
     data class Empty(val message: String): TopListEvent()
+    object Loading: TopListEvent()
 }

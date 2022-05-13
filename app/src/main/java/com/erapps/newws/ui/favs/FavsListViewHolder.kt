@@ -16,7 +16,7 @@ class FavsListViewHolder(
         binding.article = article
 
         binding.cardFavs.setOnClickListener {
-            openInCustomTab(article.url)
+            openInCustomTab(article.url!!)
         }
     }
 

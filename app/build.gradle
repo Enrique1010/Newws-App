@@ -25,7 +25,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'News_Api_Base_URL', '"https://newsapi.org/v2/"'
-            buildConfigField 'String', 'API_KEY', '"8bc4e0c655cb433096f055b79883da60"'//'"4e70b7417d5a49f39fb94bc76f0858b9"'
+            buildConfigField 'String', 'API_KEY', '"4e70b7417d5a49f39fb94bc76f0858b9"'
         }
         debug{
             versionNameSuffix '-debug'
@@ -39,8 +39,8 @@ android {
         dataBinding true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '11'
@@ -71,7 +71,7 @@ dependencies {
     //customTabs
     implementation "androidx.browser:browser:$customTabs"
     //palette
-    implementation "androidx.palette:palette:$palette"
+    implementation "androidx.palette:palette-ktx:$palette"
     //room
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-paging:$roomVersion"

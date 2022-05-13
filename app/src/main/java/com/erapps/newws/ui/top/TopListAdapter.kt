@@ -17,7 +17,6 @@ class TopListAdapter: PagingDataAdapter<Article, TopListViewHolder>(ARTICLE_COMP
         if(article != null){
             holder.bind(article)
         }
-        holder._binding.executePendingBindings()
     }
 
     companion object {

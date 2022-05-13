@@ -21,7 +21,7 @@ class NewsListViewHolder(
         }
 
         binding.cardNews.setOnClickListener {
-            openInCustomTab(article.url)
+            openInCustomTab(article.url!!)
         }
 
         binding.cardNews.setOnLongClickListener {

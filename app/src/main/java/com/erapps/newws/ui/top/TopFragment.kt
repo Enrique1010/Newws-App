@@ -28,7 +28,10 @@ class TopFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTopBinding.inflate(inflater, container, false)
+        _binding = FragmentTopBinding.inflate(inflater, container, false).apply {
+            viewModel = this@TopFragment.viewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
         setUpRV()
         return binding.root
     }
@@ -84,11 +87,22 @@ class TopFragment : Fragment() {
         launch {
             viewModel.topHeadLines.collectLatest {
                 when(it){
-                    is TopListEvent.Empty -> adapter.submitData(PagingData.empty())
-                    is TopListEvent.Success -> adapter.submitData(it.topArticles)
+                    is TopListEvent.Empty -> {
+                        adapter.submitData(PagingData.empty())
+                        showProgress(false)
+                    }
+                    is TopListEvent.Success -> {
+                        adapter.submitData(it.topArticles)
+                        showProgress(false)
+                    }
+                    TopListEvent.Loading -> showProgress(true)
                 }
             }
         }
+    }
+
+    private fun showProgress(tf: Boolean){
+        viewModel.progressStatus.value = tf
     }
 
     private fun setUpRV(){

@@ -33,7 +33,10 @@ class NewsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        _binding = FragmentNewsBinding.inflate(inflater, container, false).apply {
+            viewModel = this@NewsFragment.viewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
         setHasOptionsMenu(true)
         setupRV()
         return binding.root
@@ -76,10 +79,25 @@ class NewsFragment : Fragment() {
         launch {
             viewModel.articleList.collectLatest { uiState ->
                 when(uiState){
-                    is NewsEvent.Empty -> adapter.submitData(PagingData.empty())
-                    is NewsEvent.Success -> adapter.submitData(uiState.articles)
+                    NewsEvent.Loading -> showProgress(true)
+                    is NewsEvent.Empty -> {
+                        showProgress(false)
+                        adapter.submitData(PagingData.empty())
+                    }
+                    is NewsEvent.Success -> {
+                        showProgress(false)
+                        adapter.submitData(uiState.articles)
+                    }
                 }
             }
+        }
+    }
+
+    private fun showProgress(visible: Boolean){
+        if (visible){
+            binding.progressBar3.visibility = View.VISIBLE
+        }else{
+            binding.progressBar3.visibility = View.GONE
         }
     }
 

@@ -6,7 +6,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.erapps.newws.data.models.Article
-import com.erapps.newws.data.source.favs.FavsRepository
 import com.erapps.newws.data.source.news.ILocalNewsRepository
 import com.erapps.newws.data.source.news.INewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +20,7 @@ class NewsViewModel @Inject constructor(
     private val localRepository: ILocalNewsRepository
 ): ViewModel() {
 
-    private val _articleList = MutableStateFlow<NewsEvent>(NewsEvent.Success(PagingData.empty()))
+    private val _articleList = MutableStateFlow<NewsEvent>(NewsEvent.Loading)
     val articleList = _articleList.asStateFlow()
 
     val searchText = MutableStateFlow("the")
@@ -45,4 +44,5 @@ class NewsViewModel @Inject constructor(
 sealed class NewsEvent{
     data class Success(val articles: PagingData<Article>): NewsEvent()
     data class Empty(val errorMessage: String): NewsEvent()
+    object Loading: NewsEvent()
 }

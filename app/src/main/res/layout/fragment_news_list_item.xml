@@ -34,7 +34,7 @@
                     android:id="@+id/ivNewsItem"
                     android:layout_width="match_parent"
                     android:layout_height="192dp"
-                    setImageUrl="@{article.urlToImage}"
+                    setImageUrlFromWeb="@{article.urlToImage}"
                     android:contentDescription="@string/news_image"
                     android:scaleType="centerCrop"
                     tools:src="@drawable/ic_error_placeholder"/>

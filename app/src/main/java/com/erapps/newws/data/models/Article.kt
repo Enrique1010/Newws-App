@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.erapps.newws.utils.Exclude
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -16,26 +15,26 @@ data class Article (
     val id: Int = 0,
     @ColumnInfo(name = "source")
     @SerializedName("source")
-    val source      : Source,
+    val source      : Source? = null,
     @ColumnInfo(name = "author")
     @SerializedName("author")
-    val author      : String,
+    val author      : String? = null,
     @ColumnInfo(name = "title")
     @SerializedName("title")
-    val title       : String,
+    val title       : String? = null,
     @ColumnInfo(name = "description")
     @SerializedName("description")
-    val description : String,
+    val description : String? = null,
     @ColumnInfo(name = "url")
     @SerializedName("url")
-    val url         : String,
+    val url         : String? = null,
     @ColumnInfo(name = "urlToImage")
     @SerializedName("urlToImage")
-    val urlToImage  : String,
+    val urlToImage  : String? = null,
     @ColumnInfo(name = "publishedAt")
     @SerializedName("publishedAt")
-    val publishedAt : String,
+    val publishedAt : String? = null,
     @ColumnInfo(name = "content")
     @SerializedName("content")
-    val content     : String
+    val content     : String? = null
 ): Serializable

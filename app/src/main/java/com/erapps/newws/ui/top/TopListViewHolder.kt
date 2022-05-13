@@ -4,9 +4,8 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.erapps.newws.R
 import com.erapps.newws.data.models.Article
 import com.erapps.newws.databinding.FragmentTopListItemBinding
 
@@ -14,13 +13,17 @@ class TopListViewHolder(
     private val binding: FragmentTopListItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
-    val _binding: FragmentTopListItemBinding = binding
-
     fun bind(article: Article){
         binding.article = article
 
         binding.cardTop.setOnClickListener {
-            openInCustomTab(article.url)
+            openInCustomTab(article.url!!)
+        }
+
+        binding.cardTop.setOnLongClickListener {
+            val direction = TopFragmentDirections.actionTopFragmentToAddToFavsBottomSheet(article)
+            binding.root.findNavController().navigate(direction)
+            return@setOnLongClickListener true
         }
     }
 
