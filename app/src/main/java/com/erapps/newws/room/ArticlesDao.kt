@@ -3,25 +3,15 @@ package com.erapps.newws.room
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.erapps.newws.data.models.Article
-import com.erapps.newws.room.entities.CachedArticles
 
 @Dao
 interface ArticlesDao {
-    @Query("select articles from CachedArticles where id = 1")
+    @Query("select * from ARTICLES")
     fun getAll(): PagingSource<Int, Article>
 
-    @Query("select * from Article order by id desc")
-    fun getFavs(): PagingSource<Int, Article>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUpdatedList(cachedArticles: CachedArticles)
+    suspend fun insertUpdatedList(articles: List<Article>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavs(article: Article)
-
-    @Query("delete from CachedArticles")
+    @Query("delete from articles")
     suspend fun deleteArticles()
-
-    @Delete
-    suspend fun deleteFavArticle(article: Article)
 }

@@ -1,11 +1,14 @@
 package com.erapps.newws.data.source.remote
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.erapps.newws.api.services.NewsApiService
 import com.erapps.newws.data.models.Article
 import com.erapps.newws.data.source.news.NewsPagingSource
+import com.erapps.newws.data.source.news.NewsRemoteMediator
+import com.erapps.newws.room.ArticlesDatabase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 
@@ -27,7 +30,8 @@ interface INewsDataSource {
 
 class NewsRemoteDataSource(
     private val newsApiService: NewsApiService,
-    private val ioDispatcher: CoroutineDispatcher
+    private val ioDispatcher: CoroutineDispatcher,
+    private val database: ArticlesDatabase
 ): INewsDataSource {
 
     override suspend fun getAllNews(): Flow<PagingData<Article>> {
@@ -82,11 +86,12 @@ class NewsRemoteDataSource(
         ).flow.flowOn(ioDispatcher)
     }
 
+    @OptIn(ExperimentalPagingApi::class)
     override suspend fun getByUserQuery(
         searchBy: String
     ): Flow<PagingData<Article>> {
         val pageSize = 30
-        val maxSize = pageSize + (pageSize * 9)
+        val maxSize = pageSize + (pageSize * 2)
         return Pager(
             config = PagingConfig(
                 pageSize = pageSize,
@@ -94,9 +99,12 @@ class NewsRemoteDataSource(
                 prefetchDistance = pageSize,
                 maxSize = maxSize
             ),
-            pagingSourceFactory = {
-                NewsPagingSource(newsApiService, searchBy = searchBy)
-            }
+            pagingSourceFactory = { database.articlesDao().getAll() },
+            remoteMediator = NewsRemoteMediator(
+                newsApiService = newsApiService,
+                db = database,
+                searchBy = searchBy
+            )
         ).flow.flowOn(ioDispatcher)
     }
 }

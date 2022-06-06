@@ -1,15 +1,11 @@
 package com.erapps.newws.di
 
 import com.erapps.newws.api.services.NewsApiService
-import com.erapps.newws.data.source.local.INewsLocalDataSource
 import com.erapps.newws.data.source.news.RemoteNewsRepository
-import com.erapps.newws.data.source.local.NewsLocalDataSource
-import com.erapps.newws.data.source.news.ILocalNewsRepository
 import com.erapps.newws.data.source.news.INewsRepository
-import com.erapps.newws.data.source.news.LocalNewsRepository
 import com.erapps.newws.data.source.remote.INewsDataSource
 import com.erapps.newws.data.source.remote.NewsRemoteDataSource
-import com.erapps.newws.room.ArticlesDao
+import com.erapps.newws.room.ArticlesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,28 +22,15 @@ object NewsModule {
     @Retention(AnnotationRetention.BINARY)
     annotation class RemoteNewsDataSource
 
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class LocalNewsDataSource
-
     @Singleton
     @RemoteNewsDataSource
     @Provides
     fun provideNewsRemoteDataSource(
         newsApiService: NewsApiService,
+        database: ArticlesDatabase,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): INewsDataSource {
-        return NewsRemoteDataSource(newsApiService, ioDispatcher)
-    }
-
-    @Singleton
-    @LocalNewsDataSource
-    @Provides
-    fun provideNewsLocalDataSource(
-        articlesDao: ArticlesDao,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): INewsLocalDataSource {
-        return NewsLocalDataSource(articlesDao, ioDispatcher)
+        return NewsRemoteDataSource(newsApiService, ioDispatcher, database)
     }
 
     @Singleton
@@ -58,18 +41,6 @@ object NewsModule {
     ): INewsRepository {
         return RemoteNewsRepository(
             remoteNewsDataSource,
-            defaultDispatcher
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun providesLocalNewsRepository(
-        @LocalNewsDataSource localNewsDataSource: INewsLocalDataSource,
-        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
-    ): ILocalNewsRepository {
-        return LocalNewsRepository(
-            localNewsDataSource,
             defaultDispatcher
         )
     }

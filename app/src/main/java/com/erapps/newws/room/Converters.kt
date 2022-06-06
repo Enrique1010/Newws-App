@@ -3,6 +3,7 @@ package com.erapps.newws.room
 import androidx.room.TypeConverter
 import com.erapps.newws.data.models.Article
 import com.erapps.newws.data.models.Source
+import com.erapps.newws.room.entities.RemoteKey
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -40,5 +41,25 @@ class Converters {
 
         val listType = object: TypeToken<List<Article>>() {}.type
         return gson.fromJson(json, listType)
+    }
+
+    @TypeConverter
+    fun gsonToRemoteKey(json: String): RemoteKey? {
+        return gson.fromJson(json, RemoteKey::class.java)
+    }
+
+    @TypeConverter
+    fun remoteKeyToGson(remoteKey: RemoteKey): String? {
+        return gson.toJson(remoteKey)
+    }
+
+    @TypeConverter
+    fun gsonToLong(json: String): Long? {
+        return gson.fromJson(json, Long::class.java)
+    }
+
+    @TypeConverter
+    fun longToGson(long: Long): String?{
+        return gson.toJson(long)
     }
 }

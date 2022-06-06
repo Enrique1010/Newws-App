@@ -1,4 +1,4 @@
-package com.erapps.newws.ui.news
+package com.erapps.newws.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.erapps.newws.databinding.FragmentAddToFavsBottomSheetBinding
+import com.erapps.newws.room.entities.Article
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +32,16 @@ class AddToFavsBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bottomsheetButton1.setOnClickListener {
-            viewModel.insertArticleToFavs(args.article)
+            val networkArticle = args.article
+            viewModel.insertArticleToFavs(Article(
+                source = networkArticle.source,
+                author = networkArticle.author,
+                title = networkArticle.title,
+                url = networkArticle.url,
+                description = networkArticle.description,
+                urlToImage = networkArticle.urlToImage,
+                publishedAt = networkArticle.publishedAt
+            ))
             Toast.makeText(requireContext(), "Added to Favs!!", Toast.LENGTH_SHORT).show()
             dismiss()
         }

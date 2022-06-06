@@ -4,12 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
 import com.erapps.newws.data.models.Article
-import com.erapps.newws.data.source.news.ILocalNewsRepository
 import com.erapps.newws.data.source.news.INewsRepository
+import com.erapps.newws.utils.NetworkManagement
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,17 +15,28 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val newsRepository: INewsRepository,
-    private val localRepository: ILocalNewsRepository
+    networkManagement: NetworkManagement
 ): ViewModel() {
 
     private val _articleList = MutableStateFlow<NewsEvent>(NewsEvent.Loading)
     val articleList = _articleList.asStateFlow()
 
+    val isLoading = MutableStateFlow(true)
+    val networkAvailable = MutableStateFlow(true)
+    val isEmpty = MutableStateFlow(false)
+    val emptyText = MutableStateFlow("")
     val searchText = MutableStateFlow("the")
 
     init {
-        //networkManagement
-        //update Room Database
+        viewModelScope.launch {
+            networkManagement.isNetworkAvailable.collect{
+                if (it){
+                    networkAvailable.value = it
+                    //getArticles()
+                }
+                networkAvailable.value = it
+            }
+        }
     }
 
     private val searchFlow = searchText.flatMapLatest { query ->
@@ -38,6 +47,7 @@ class NewsViewModel @Inject constructor(
         searchFlow.collectLatest {
             _articleList.value = NewsEvent.Success(it)
         }
+        _articleList.value = NewsEvent.Loading
     }
 }
 

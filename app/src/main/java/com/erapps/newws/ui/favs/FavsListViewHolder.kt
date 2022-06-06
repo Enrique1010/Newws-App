@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.RecyclerView
-import com.erapps.newws.data.models.Article
+import com.erapps.newws.room.entities.Article
 import com.erapps.newws.databinding.FragmentFavsItemListBinding
 
 class FavsListViewHolder(

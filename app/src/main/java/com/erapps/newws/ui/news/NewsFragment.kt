@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,8 +15,10 @@ import com.erapps.newws.R
 import com.erapps.newws.databinding.FragmentNewsBinding
 import com.erapps.newws.utils.launchAndRepeatWithViewLifecycle
 import com.erapps.newws.utils.onQueryTextChanged
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -46,9 +49,10 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = NewsListAdapter()
         recyclerView.adapter = adapter
-
+        //loadStateListener()
         viewModel.getArticles()
         launchAndRepeatWithViewLifecycle {
+            verifyInternet()
             observeViewModel()
         }
     }
@@ -75,17 +79,28 @@ class NewsFragment : Fragment() {
         }
     }
 
+//    private fun loadStateListener(){
+//        adapter.addLoadStateListener { loadState ->
+//            if (loadState.source.refresh is LoadState.NotLoading
+//                && loadState.append.endOfPaginationReached){
+//                viewModel.isEmpty.value = true
+//                viewModel.emptyText.value = "No News to Show!"
+//            }else{
+//                viewModel.isEmpty.value = false
+//                viewModel.emptyText.value = ""
+//            }
+//        }
+//    }
+
     private fun CoroutineScope.observeViewModel(){
         launch {
+            //delay(2000)
             viewModel.articleList.collectLatest { uiState ->
                 when(uiState){
-                    NewsEvent.Loading -> showProgress(true)
-                    is NewsEvent.Empty -> {
-                        showProgress(false)
-                        adapter.submitData(PagingData.empty())
-                    }
+                    is NewsEvent.Loading -> viewModel.isLoading.value = true
+                    is NewsEvent.Empty -> viewModel.isLoading.value = false
                     is NewsEvent.Success -> {
-                        showProgress(false)
+                        viewModel.isLoading.value = false
                         adapter.submitData(uiState.articles)
                     }
                 }
@@ -93,13 +108,13 @@ class NewsFragment : Fragment() {
         }
     }
 
-    private fun showProgress(visible: Boolean){
+    /*private fun showProgress(visible: Boolean){
         if (visible){
             binding.progressBar3.visibility = View.VISIBLE
         }else{
-            binding.progressBar3.visibility = View.GONE
+            binding.progressBar3.visibility = View.INVISIBLE
         }
-    }
+    }*/
 
     private fun scrollToTop(){
         recyclerView.layoutManager?.scrollToPosition(0)
@@ -109,6 +124,23 @@ class NewsFragment : Fragment() {
         recyclerView = binding.recyclerNews
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+    }
+
+    private fun CoroutineScope.verifyInternet(){
+        val snack = Snackbar.make(
+            requireContext(),
+            requireView(),
+            "No internet connection",
+            Snackbar.LENGTH_INDEFINITE
+        )
+        launch {
+            viewModel.networkAvailable.collect {
+                when(it){
+                    true -> snack.dismiss()
+                    false -> snack.show()
+                }
+            }
         }
     }
 

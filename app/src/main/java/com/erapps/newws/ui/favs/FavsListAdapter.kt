@@ -3,8 +3,7 @@ package com.erapps.newws.ui.favs
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import com.erapps.newws.data.models.Article
+import com.erapps.newws.room.entities.Article
 
 class FavsListAdapter: PagingDataAdapter<Article, FavsListViewHolder>(ARTICLE_COMPARATOR) {
 

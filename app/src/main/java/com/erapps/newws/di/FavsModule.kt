@@ -1,9 +1,9 @@
 package com.erapps.newws.di
 
 import com.erapps.newws.data.source.favs.FavsDefaultRepository
-import com.erapps.newws.data.source.favs.FavsRepository
+import com.erapps.newws.data.source.favs.IFavsRepository
 import com.erapps.newws.data.source.local.FavsLocalDS
-import com.erapps.newws.room.ArticlesDao
+import com.erapps.newws.room.FavsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,11 +24,11 @@ object FavsModule {
     @Provides
     @FavsLocalDataSource
     fun provideFavsLocalDS(
-        articlesDao: ArticlesDao,
+        favsDao: FavsDao,
         @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): FavsLocalDS {
         return FavsLocalDS(
-            articlesDao,
+            favsDao,
             coroutineDispatcher
         )
     }
@@ -38,7 +38,7 @@ object FavsModule {
     fun provideFavsRepository(
         @FavsLocalDataSource favsLocalDS: FavsLocalDS,
         @DefaultDispatcher coroutineDispatcher: CoroutineDispatcher
-    ): FavsRepository{
+    ): IFavsRepository {
         return FavsDefaultRepository(
             favsLocalDS,
             coroutineDispatcher

@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.erapps.newws.data.models.Article
+import com.erapps.newws.room.entities.Article
 import com.erapps.newws.databinding.FragmentFavsBinding
 import com.erapps.newws.utils.launchAndRepeatWithViewLifecycle
 import com.google.android.material.snackbar.Snackbar

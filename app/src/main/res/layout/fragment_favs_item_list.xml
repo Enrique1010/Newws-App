@@ -6,7 +6,7 @@
     <data>
         <variable
             name="article"
-            type="com.erapps.newws.data.models.Article" />
+            type="com.erapps.newws.room.entities.Article" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

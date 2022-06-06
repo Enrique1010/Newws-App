@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_favs" />
     <dialog
         android:id="@+id/addToFavsBottomSheet"
-        android:name="com.erapps.newws.ui.news.AddToFavsBottomSheet"
+        android:name="com.erapps.newws.ui.AddToFavsBottomSheet"
         android:label="fragment_add_to_favs_bottom_sheet"
         tools:layout="@layout/fragment_add_to_favs_bottom_sheet" >
         <argument

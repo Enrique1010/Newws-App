@@ -1,58 +1,18 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext{
-        // Kotlin
         kotlinVersion = '1.6.21'
-        coroutinesVersion = '1.6.1-native-mt'
-
-        // AndroidX
-        coreKtxVersion = '1.7.0'
-        appCompatVersion = '1.4.1'
-        constraintLayoutVersion = '2.1.3'
-        navigationVersion = '2.4.2'
-        legacySupportV4Version = '1.0.0'
-        lifecycleVersion = '2.4.1'
-        fragmentVersion = '1.4.1'
-        pagingVersion = '3.1.1'
-        roomVersion = "2.4.2"
-        customTabs = '1.4.0'
-        palette = '1.0.0'
-
-        // Google
-        materialVersion = '1.5.0'
-        gsonVersion = '2.9.0'
-
-        //Hilt
+        androidGradlePluginVersion = '7.2.0'
         hiltVersion = '2.41'
-
-        //coil
-        coilVersion = '2.0.0-rc03'
-
-        // SquareUp
-        retrofitVersion = '2.9.0'
-        okhttpInterceptorVersion = '5.0.0-alpha.6'
-
-        // Timber
-        timberVersion = '5.0.1'
-
-        // Test
-        junitVersion = '4.13.2'
-
-        // AndroidX Test
-        extJunitVersion = '1.1.3'
-        espressoCoreVersion = '3.4.0'
-    }
-
-    dependencies {
-        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        navigationVersion = '2.4.2'
     }
 }
 
 plugins {
-    id 'com.android.application' version '7.1.3' apply false
-    id 'com.android.library' version '7.1.3' apply false
-    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
+    id('com.android.application') version("$androidGradlePluginVersion") apply(false)
+    id('com.android.library') version("$androidGradlePluginVersion") apply(false)
+    id('org.jetbrains.kotlin.android') version("$kotlinVersion") apply(false)
+    id('com.google.dagger.hilt.android') version("$hiltVersion") apply(false)
+    id('androidx.navigation.safeargs.kotlin') version("$navigationVersion") apply(false)
 }
 
 task clean(type: Delete) {

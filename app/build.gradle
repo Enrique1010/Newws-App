@@ -51,9 +51,45 @@ kapt {
     correctErrorTypes = true
 }
 
+ext{
+    // AndroidX
+    coreKtxVersion = '1.7.0'
+    appCompatVersion = '1.4.1'
+    constraintLayoutVersion = '2.1.4'
+    legacySupportV4Version = '1.0.0'
+    lifecycleVersion = '2.4.1'
+    fragmentVersion = '1.4.1'
+    pagingVersion = '3.1.1'
+    roomVersion = "2.4.2"
+    customTabs = '1.4.0'
+    palette = '1.0.0'
+    coroutinesVersion = '1.6.1-native-mt'
+
+    // Google
+    materialVersion = '1.6.0'
+    gsonVersion = '2.9.0'
+
+    //coil
+    coilVersion = '2.0.0-rc03'
+
+    // SquareUp
+    retrofitVersion = '2.9.0'
+    okhttpInterceptorVersion = '5.0.0-alpha.6'
+
+    // Timber
+    timberVersion = '5.0.1'
+
+    // Test
+    junitVersion = '4.13.2'
+
+    // AndroidX Test
+    extJunitVersion = '1.1.3'
+    espressoCoreVersion = '3.4.0'
+}
+
 dependencies {
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
     // AndroidX
@@ -64,8 +100,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     //navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
     //paging
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
     //customTabs
@@ -88,9 +124,9 @@ dependencies {
     implementation "com.google.code.gson:gson:$gsonVersion"
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
+    //implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Squareup
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

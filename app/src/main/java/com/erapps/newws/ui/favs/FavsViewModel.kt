@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.erapps.newws.data.models.Article
-import com.erapps.newws.data.source.favs.FavsRepository
+import com.erapps.newws.room.entities.Article
+import com.erapps.newws.data.source.favs.IFavsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -17,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavsViewModel @Inject constructor(
-    private val favsRepository: FavsRepository
+    private val favsRepository: IFavsRepository
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<FavsEvents>(FavsEvents.Loading)

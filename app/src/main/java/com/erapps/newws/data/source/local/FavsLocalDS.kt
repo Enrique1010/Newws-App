@@ -3,23 +3,23 @@ package com.erapps.newws.data.source.local
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.erapps.newws.data.models.Article
-import com.erapps.newws.room.ArticlesDao
+import com.erapps.newws.room.entities.Article
+import com.erapps.newws.room.FavsDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
-interface FavsDataSource{
+interface IFavsDataSource{
     suspend fun getFavoritesArticles(): Flow<PagingData<Article>>
     suspend fun insertFavoriteArticle(article: Article)
     suspend fun deleteFavArticle(article: Article)
 }
 
 class FavsLocalDS(
-    private val articlesDao: ArticlesDao,
+    private val favsDao: FavsDao,
     private val ioDispatcher: CoroutineDispatcher
-): FavsDataSource {
+): IFavsDataSource {
 
     override suspend fun getFavoritesArticles(): Flow<PagingData<Article>> {
         val pageSize = 30
@@ -32,17 +32,17 @@ class FavsLocalDS(
                 maxSize = maxSize
             ),
             pagingSourceFactory = {
-                articlesDao.getFavs()
+                favsDao.getFavs()
             }
         ).flow.flowOn(ioDispatcher)
     }
 
     override suspend fun insertFavoriteArticle(article: Article) = withContext(ioDispatcher) {
-        articlesDao.insertFavs(article = article)
+        favsDao.insertFavs(article = article)
     }
 
     override suspend fun deleteFavArticle(article: Article) = withContext(ioDispatcher) {
-        articlesDao.deleteFavArticle(article)
+        favsDao.deleteFavArticle(article)
     }
 
 }
